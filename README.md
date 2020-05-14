@@ -4,3 +4,4 @@ Any larger stand alone projects I make will be contained in separate repositorie
 ## Cool Deno Resources
 - Of course the main [Deno page](https://deno.land/)
 - Flaviocopes [Deno Handbook](https://flaviocopes.com/deno/)
+- Brush up on the [TypeScript](https://learnxinyminutes.com/docs/typescript/)
