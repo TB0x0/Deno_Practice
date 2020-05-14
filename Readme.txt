@@ -1,0 +1,1 @@
+A repository to contain practice Deno code. Larger stand alone projects will be contained in separate repositories.
