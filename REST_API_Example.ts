@@ -69,7 +69,9 @@ export const getAuthor = ({
     const book = books.filter((book) => book.author === params.author)
     if (book.length) {
         response.status = 200
-        response.body = book[0]
+        for (var i = 0; i < books.length; i++){
+        response.body = books[i]
+        }
         return;
     }
 
