@@ -72,13 +72,61 @@ export const addBook = async ({
     response.status = 200;
 }
 
+export const updateBook = async ({
+    params,
+    request,
+    response,
+  }: {
+    params: {
+      title: string
+    }
+    request: any
+    response: any
+  }) => {
+    const temp = books.filter((existingBook) => existingBook.title === params.title)
+    const body = await request.body()
+    const { pub_date }: { pub_date: number } = body.value
+  
+    if (temp.length) {
+      temp[0].pub_date = pub_date
+      response.status = 200
+      response.body = { msg: 'OK' }
+      return
+    }
+  
+    response.status = 400
+    response.body = { msg: `Can't find book ${params.title}` }
+  }
+  
+  export const removeBook = ({
+    params,
+    response,
+  }: {
+    params: {
+      title: string
+    }
+    response: any
+  }) => {
+    const lengthBefore = books.length
+    books = books.filter((book) => book.title !== params.title)
+  
+    if (books.length === lengthBefore) {
+      response.status = 400
+      response.body = { msg: `Cannot find book ${params.title}` }
+      return
+    }
+  
+    response.body = { msg: 'OK' }
+    response.status = 200
+  }
+
 // Create Oak objects
 const router = new Router()
 router
     .get('/books', getBooks)
     .get('/books/:title', getBook)
     .post('/books', addBook)
-    .put('/books/:title', updateBog)
+    .put('/books/:title', updateBook)
     .delete('/books/:title', removeBook)
 
 const app = new Application();
