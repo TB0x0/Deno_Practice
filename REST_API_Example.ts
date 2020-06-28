@@ -25,6 +25,11 @@ let books: Array<Book> = [          // Create an array of Book interfaces
         title: 'Great Expectations',
         pub_date: 1860
     },
+    {
+        author: 'Charles Dickens',
+        title: 'Bleak House',
+        pub_date: 1853
+    },
 ]
 
 export const getBooks = ({ response }: { response: any}) =>
@@ -32,7 +37,7 @@ export const getBooks = ({ response }: { response: any}) =>
     response.body = books
 }
 
-export const getBook = ({
+export const getTitle = ({
     params,
     response,
 }: {
@@ -50,6 +55,26 @@ export const getBook = ({
 
     response.status = 400
     response.body = { msg: `No record of ${params.title}` }
+}
+
+export const getAuthor = ({
+    params,
+    response,
+}: {
+    params: {
+        author: string
+    }
+    response: any
+}) => {
+    const book = books.filter((book) => book.author === params.author)
+    if (book.length) {
+        response.status = 200
+        response.body = book[0]
+        return;
+    }
+
+    response.status = 400
+    response.body = { msg: `No record of ${params.author}` }
 }
 
 export const addBook = async ({
@@ -124,7 +149,8 @@ export const updateBook = async ({
 const router = new Router()
 router
     .get('/books', getBooks)
-    .get('/books/:title', getBook)
+    .get('/books/:title', getTitle)
+    .get('/books/:author', getAuthor)
     .post('/books', addBook)
     .put('/books/:title', updateBook)
     .delete('/books/:title', removeBook)
