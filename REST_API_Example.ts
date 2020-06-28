@@ -3,14 +3,14 @@
 // import application and router from Oak
 import { Application, Router } from 'https://deno.land/x/oak/mod.ts'
 
-const env = Deno.env.toObject();
-const PORT = env.PORT || 4000;
-const HOST = env.HOST || '127.0.0.1';
+const env = Deno.env.toObject()
+const PORT = env.PORT || 4000
+const HOST = env.HOST || '127.0.0.1'
 
 interface Book {
-    author: string;
-    title: string;
-    pub_date: number;
+    author: string
+    title: string
+    pub_date: number
 }
 
 
@@ -29,7 +29,7 @@ let books: Array<Book> = [          // Create an array of Book interfaces
 
 export const getBooks = ({ response }: { response: any}) =>
 {
-    response.body = books;
+    response.body = books
 }
 
 export const getBook = ({
@@ -43,12 +43,12 @@ export const getBook = ({
 }) => {
     const book = books.filter((book) => book.title === params.title)
     if (book.length) {
-        response.status = 200;
-        response.body = book[0];
+        response.status = 200
+        response.body = book[0]
         return;
     }
 
-    response.status = 400;
+    response.status = 400
     response.body = { msg: `No record of ${params.title}` }
 }
 
@@ -68,11 +68,19 @@ export const addBook = async ({
         pub_date: pub_date,
     })
 
-    response.body = { msg: 'ACCEPTED' };
+    response.body = { msg: 'ACCEPTED' }
     response.status = 200;
 }
+
 // Create Oak objects
-const router = new Router();
+const router = new Router()
+router
+    .get('/books', getBooks)
+    .get('/books/:title', getBook)
+    .post('/books', addBook)
+    .put('/books/:title', updateBog)
+    .delete('/books/:title', removeBook)
+
 const app = new Application();
 
 app.use(router.routes());
