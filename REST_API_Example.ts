@@ -150,7 +150,7 @@ const router = new Router()
 router
     .get('/books', getBooks)
     .get('/books/:title', getTitle)
-    .get('/books/:author', getAuthor)
+    .get('/books/authors/:author', getAuthor)
     .post('/books', addBook)
     .put('/books/:title', updateBook)
     .delete('/books/:title', removeBook)
